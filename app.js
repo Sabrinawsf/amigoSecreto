@@ -1,5 +1,3 @@
-//O principal objetivo deste desafio é fortalecer suas habilidades em lógica de programação. Aqui você deverá desenvolver a lógica para resolver o problema.
-
 // Array que vai guardar os nomes dos participantes
 let amigos = [];
 
@@ -7,11 +5,12 @@ let amigos = [];
 function atualizarLista() {
     let lista = document.getElementById('listaAmigos');
     lista.innerHTML = "";
-    for (let i = 0; i < amigos.length; i++) {
+
+    amigos.forEach(amigo => {
         let li = document.createElement('li');
-        li.textContent = amigos[i];
+        li.textContent = amigo;
         lista.appendChild(li);
-    }
+    });
 }
 
 // Função para adicionar amigos
@@ -24,32 +23,44 @@ function adicionarAmigo() {
         return;
     }
 
+    // Verifica se já existe o nome no array, ignorando maiúsculas/minúsculas
+    let existe = amigos.some(a => a.toLowerCase() === nome.toLowerCase());
+
+    if (existe) {
+        alert("Este amigo já foi adicionado!");
+        input.value = "";
+        return;
+    }
+
+    // Adiciona o nome ao array
     amigos.push(nome);
     atualizarLista();
     input.value = "";
+
     console.log("Amigos cadastrados:", amigos);
 }
 
 // Função para sortear um amigo secreto
 function sortearAmigo() {
-    // Verifica se há amigos cadastrados
+    let resultado = document.getElementById('resultado');
+
     if (amigos.length === 0) {
         alert("Nenhum amigo cadastrado para sortear!");
+        resultado.innerHTML = "";
         return;
     }
 
-    // Gera um índice aleatório
-    let indiceAleatorio = Math.floor(Math.random() * amigos.length);
+    if (amigos.length === 1) {
+        alert("Não dá para sortear com apenas um amigo!");
+        resultado.innerHTML = "";
+        return;
+    }
 
-    // Obtém o nome sorteado
+    // Sorteia aleatoriamente
+    let indiceAleatorio = Math.floor(Math.random() * amigos.length);
     let amigoSorteado = amigos[indiceAleatorio];
 
-    // Mostra o resultado na tela
-    let resultado = document.getElementById('resultado');
     resultado.innerHTML = `<li>O amigo sorteado é: <strong>${amigoSorteado}</strong></li>`;
 
     console.log("Amigo sorteado:", amigoSorteado);
 }
-
-
-
